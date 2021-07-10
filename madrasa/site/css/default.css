@@ -1,0 +1,454 @@
+	@charset "utf-8";
+/* CSS Document */
+
+body {
+	font-size:18px;
+	margin:0px !important;
+	padding:0xp !important;
+	direction:rtl;
+	/*background: url(../images/bg/2.jpg);*/
+}
+#outcontainer {	
+	width:1100px;
+	min-height:600px;
+	margin:0 auto;
+}
+#innercontainer {
+	margin:0 auto;
+	width:1100px;
+	background-color:#EFF0EA;
+	padding:0px;
+}
+
+#header {
+	width:1100px;
+	height:236px;
+	background:url(../images/header.jpg);
+}
+#menu {
+	background: #000 url(../images/menubg.jpg) repeat-x;
+	width:1100px !important;
+	height:50px;
+	z-index:5;
+	overflow:hidden;
+	margin:0 auto;
+	text-align:center !important;
+	}
+#menu a{
+	color:#000;
+	text-decoration:none;
+	font-size:20px;
+	}
+#menu a:hover{
+	color:#009;
+	text-decoration:none;
+	font-size:20px;
+	}
+#content {
+	width:99%;
+	min-height:400px;
+	padding:5px;
+}
+
+.generalTextFonts {
+	vertical-align:top;
+	text-align: right;
+	direction:rtl;
+	font-size:25px;
+	line-height:30px;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+
+.titleFont {	
+	padding:5px;
+	vertical-align:top;
+	text-align: right;
+	direction:rtl;
+	font-size:35px;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+
+#footer {
+	width:100%;
+	height:300px;
+	background:#092F55;
+	background-repeat:repeat-x;
+}
+#mainFooter{
+	width:1050px;
+	margin:0px auto;
+	padding:0 25px;
+	background:#092F55;
+	height:200px;
+	}
+#footerLinks a{
+	color:#ffffff;
+	text-decoration:none;
+	font-size:20px;
+	padding:4px;
+	border-radius:4px;
+	background:#092F55;
+	transition:background 0.3s linear;
+	}
+#footerLinks a:hover{
+	color:#FFCC00;
+	text-decoration:none;
+	font-size:20px;
+	background:#333;
+	transition:background 0.3s linear;
+	}
+#footerLinks td{
+	text-align:right;
+	}
+#rules td{ 
+	vertical-align:top; 
+	font-size:20px; 
+	line-height:43px;
+	font-family:'Jameel Noori Nastaleeq';
+	}		
+	
+#contentTitle{
+	line-height:40px;
+	padding:15px;
+	}
+
+#title {
+	color:#036;
+	font-size:15px;
+	padding-left:5px;
+	line-height:50px;
+	}
+#errorPage {
+	color:#F30;
+	font-size:20px;
+	}
+form {
+	font-family:'Jameel Noori Nastaleeq';
+	}
+.frmInputTxt {
+	font-size:18px;
+	padding:4px;
+	width:258px;
+	border-radius:5px;
+	border:1px solid #CCC;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+.fixTxt {
+	background:#ffffff;
+	position:relative;
+	top:1px;
+	}	
+.frmSelect{
+	font-size:20px;
+	padding:2px;
+	width:285px;
+	border-radius:5px;
+	border:0px;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+.frmTxtArea {
+	font-size:18px;
+	padding:8px;
+	width:260px;
+	border-radius:5px;
+	border:0px;
+	resize:none;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+	
+.headingTxtDiv {
+	text-align:center; 
+	direction:rtl; 
+	padding:5px; 
+	line-height:55px; 
+	font-size:40px; 
+	font-family:'Jameel Noori Nastaleeq';
+	text-decoration:none;
+	background-color:transparent;
+	}
+.btnSave {
+	font-size:18px;
+	direction:rtl;
+	padding:5px;	
+	background-color:#036;
+	color:#F3F3F3;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+.btnClr {
+	font-size:18px;
+	direction:rtl;
+	padding:5px;	
+	background-color:#ffffff;
+	color:#090;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+.btnDel {
+	font-size:18px;
+	direction:rtl;
+	padding:5px;	
+	background-color:#FBC5B7;
+	color:#036;
+	font-family:'Jameel Noori Nastaleeq';
+	}		
+.errFonts {
+	font-family:'Jameel Noori Nastaleeq';
+	font-size:30px;
+	color:#F00;
+	}
+.sucFonts {
+	font-family:'Jameel Noori Nastaleeq';
+	font-size:25px;
+	color:#039;
+	}	
+.admissionReport {
+	font-family:'Jameel Noori Nastaleeq';
+	font-size:25px;
+	}	
+#topSearch{
+	width:100%;
+	height:60px;
+	position:absolute; 
+	top:0px;
+	left:0px;
+	z-index:2000;
+	}
+#searchBox{
+	position:relative;
+	margin-left:auto;
+	margin-right:auto;
+	width:900px; 
+	height:64px;
+	padding-top:10px;
+	z-index:4000;
+	background-image:url(../images/search.png);
+	background-repeat:no-repeat;
+	}
+#searchBox a{
+	color:#009; 
+	text-decoration:none;
+	font-size:25px;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+#searchBox a:hover{
+	color:#F00; 
+	text-decoration:underline;
+	font-size:25px;
+	font-family:'Jameel Noori Nastaleeq';
+	}
+#searchBoxDiv a{
+	text-decoration:none;
+	font-size:22px;
+	font-family: 'Jameel Noori Nastaleeq';
+	}	
+#searchBoxDiv a:hover{
+	text-decoration:none;
+	font-size:22px;
+	font-family: 'Jameel Noori Nastaleeq';
+	}
+#frmSeach{
+	width:280px;
+	height:400px;
+	background-color:#B8D0F5;
+	float:left;
+	text-align:left;
+	position:relative;
+	padding-left:20px;
+	}
+#searchBody{
+	width:400px;
+	}
+/* Student Card container */
+#cardwraper {
+	background-image: url("../images/stdCardBg.png");
+    background-repeat: no-repeat;
+    height: 267px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 46px;
+    width: 1018px;
+}
+#crdTbl{
+	height: 194px;
+    left: -35px;
+    position: relative;
+    top: -40px;
+    width: 676px;
+	border:1px solid transparent;
+	}
+#crdTbl td{
+	border:1px solid transparent;
+	}	
+/*------- Start Card Contents -----------*/
+#pic{
+	background: none repeat scroll 0 0 transparent;
+    position: relative;
+    right: 372px;
+    top: 109px;
+    width: 65px;
+	}
+#stdName{
+	background: none repeat scroll 0 0 transparent;
+    left: 12px;
+    position: relative;
+    top: -5px;
+    width: 339px;
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+	}
+#stdFatherName{
+	background: none repeat scroll 0 0 transparent;
+    left: 12px;
+    position: relative;
+    top: -9px;
+    width: 338px;
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+	}
+#regNo{
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+    position: relative;
+    right: -12px;
+    top: -12px;
+    width: 225px;
+	}
+#dob{
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+	position: relative;
+    right: -12px;
+    top: -12px;
+    width: 350px;
+	}	
+#signNazim{
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+    position: relative;
+    right: -12px;
+    top: -15px;
+    width: 350px;
+	}
+#sign{
+    position: relative;
+    right: -12px;
+    top: 7px;
+    width: 350px;
+	}	
+/* Second Face of the card */
+#idN{
+	background: none repeat scroll 0 0 transparent;
+    font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+    position: relative;
+    right: 165px;
+    top: 34px;
+    width: 372px;
+	}
+#pAddr{
+	background: none repeat scroll 0 0 transparent;
+    position: relative;
+    right: 165px;
+    top: 40px;
+    width: 454px;
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 25px !important;
+	}
+#preAddr{
+	background: none repeat scroll 0 0 transparent;
+    position: relative;
+    right: 165px;
+    top: 44px;
+    width: 453px;
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+	}	
+#pic2{
+	background: none repeat scroll 0 0 transparent;
+    position: relative;
+    right: 554px;
+    top: -45px;
+    width: 65px;
+	}	
+#darjaLbl{
+	position: relative;
+    right: 165px;
+    top: -9px;
+	font-size:22px; 
+	font-family: 'Arial'; 
+	font-weight:bold;
+	}
+#rollNumber {
+	background: none repeat scroll 0 0 transparent;
+    position: relative;
+    right: 283px;
+    top: -40px;
+    width: 196px;
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 32px !important;
+	}
+#dateIssued{
+	background: none repeat scroll 0 0 transparent;
+    position: relative;
+    right: 165px;
+    top: -45px;
+    width: 469px;
+	font-family: Verdana,"Microsoft Uighur" !important;
+    font-size: 18px !important;
+	}
+#addressEng{
+	background: none repeat scroll 0 0 transparent;
+    border: 1px solid #7A7A7A;
+    border-radius: 8px 8px 8px 8px;
+    color: #0626A8;
+    direction: ltr;
+    font-family: 'Times New Roman';
+    font-size: 16px;
+    line-height: 21px;
+    margin: 1px auto;
+    padding: 1px;
+    position: relative;
+    right: 155px;
+    text-align: center;
+    top: -35px;
+    width: 451px;
+	}
+/* End Student Card CSS */
+#passport a{ 
+	color:#039; 
+	text-decoration:none; 
+	position:relative; 
+	top:40%;
+	}
+#regFrm	td{
+	text-align:right !important;
+	height:50px !important;
+	border:1px solid #FFF;
+	font-size:23px; 
+	}
+.headingTxtDiv a{
+	color:#036;
+	text-decoration:none;
+	padding:8px;
+	border-radius:6px;
+	transition:background 0.3s linear;
+	}
+.headingTxtDiv a:hover{
+	background:#CCC;
+	transition:background 0.3s linear;
+	}
+option {
+	font-size:20px !important;
+	color:#000 !important;
+	font-family:"jameel Noori Nastaleeq";
+	}
+.rptDiv{
+	line-height:30px;
+	min-height:40px;
+	padding:5px 0px;
+	margin:0px 10px 10px 0px;
+	}
+.rptDiv font{
+	font-family:"jameel Noori Nastaleeq";
+	font-size:24px;
+	color:#ffffff;
+	}

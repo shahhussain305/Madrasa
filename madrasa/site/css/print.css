@@ -1,0 +1,25 @@
+body{
+	font-family: "Jameel Noori Nastaleeq",Arial, Helvetica, Sans-Serif;
+	text-align:right;
+	direction: rtl;
+}
+
+h1, h2, h3, h4, p, th, td{
+	font-family: "Jameel Noori Nastaleeq",Arial, Helvetica, Sans-Serif;
+	text-align:right;
+	direction: rtl;
+}
+
+.tbl td,th{
+	border:1px black solid;
+	direction: rtl;
+}
+
+table {
+	font-family: "Jameel Noori Nastaleeq",Arial, Helvetica, Sans-Serif;
+	text-align:right;
+	direction: rtl;
+	table-layout: fixed;
+	/*border-collapse: collapse;*/
+    margin: 1px;
+}
