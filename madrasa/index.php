@@ -1,10 +1,22 @@
-<?php ob_start();session_start(); ?>
-<?php require_once('site/classes/classes.php'); ?>
-<?php require_once('site/classes/Hijri_GregorianConvert.php');  ?>
-<?php $hijri = new Hijri_GregorianConvert(); ?>
-<?php $crud = new CRUD(); ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php 
+ob_start();
+session_start();
+?>
+<?php 
+//-------Display page errors------------------------------------------------
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            //-----------------Importing Required Libraries-----------------------------
+            require_once("site/classes/App_DB.php");
+            require_once("site/classes/DbPathsArray.php");
+			require_once("site/classes/MyMethods.php");
+			require_once('site/classes/Hijri_GregorianConvert.php');
+
+            //-Creating Object and passing user info to the constructor of App_DB class-
+            $db = new App_DB(DBU::$dba_user);//passing database login details from DbPathArray.php file
+			$method = new MyMethods();$hijri = new Hijri_GregorianConvert();
+ ?>
+<html !DOCTYPE=html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title> Authorized Users Only </title>
@@ -94,8 +106,9 @@ try{
 						$userid = $_REQUEST['admin'];
 						$key = $_REQUEST['userkey'];
 						$hijri_dat = isset($_REQUEST['dat']) && !empty($_REQUEST['dat'])?$_REQUEST['dat']:date('d-m-Year');
-						$sql = "Select * from login where userid ='".$userid."' and userkey='".$key."'";
-						if($crud->search($sql)){
+						$sql = "Select * from login where userid = :userid AND userkey= :userkey";
+						$ary = array(':userid'=>$userid,':userkey'=>$key);
+						if($db->dbQuery($sql,$ary)){
 							$_SESSION['userid'] = addslashes($userid);
 							$_SESSION['key'] = addslashes($key);
 							$_SESSION['hijri'] = addslashes($hijri_dat);
@@ -103,13 +116,13 @@ try{
 							}
 						else{
 							?>
-                            [<font class="errFont"><b>Error: - </b> Authentication Failed </font>]
+                            [<span class="errFont"><b>Error: - </b> Authentication Failed </span>]
                             <?php
 							}
 						}//end if textfields check
 						else{
 							?>
-                            [<font class="errFont"><b>Error:- </b> Please fill out all the fields.</font>]
+                            [<span class="errFont"><b>Error:- </b> Please fill out all the fields.</span>]
                             <?php
 							}//end else for fields check
 							} ?>

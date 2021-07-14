@@ -16,26 +16,51 @@ class CRUD {
 		var $returnVal = "0";
 		//function to make connection to database
 		function connect(){
+			$con = new mysqli("localhost","shahhussain","Thefire!!1","taleemulquran_dbs");
+			if ($this->con->connect_errno) {
+				echo "Failed to connect to MySQL: " . $this->con->connect_error;
+				exit();
+			  }
+			/*
 			$this->con = mysql_connect("localhost","root","Thefire!!1") or die(mysql_error());	
 			mysql_query("SET character_set_results=utf8", $this->con);
 			mb_language('uni');
 			mb_internal_encoding('UTF-8');
 			mysql_select_db("taleemulquran_dbs",$this->con);
-			mysql_query("set names 'utf8'",$this->con);			
+			mysql_query("set names 'utf8'",$this->con);
+			*/			
 			}
 			
+		public function dbQuery($sql,$param){
+			try{
+				$this->connect();
+				$this->con->query($param);
+				if($this->con->affected_rows > 0){
+					return true;
+				}else{
+					return false;
+				}
+
+$mysqli -> query("DELETE FROM Persons WHERE Age>32");
+echo "Affected rows: " . $mysqli -> affected_rows;
+
+$mysqli -> close();
+			}catch(Exception $exc){
+				return $exc;
+				}
+		}
 		//to search in database tables with parameterized query.
 		function search($sql){
 			$this->connect();
 			//mysql_query("SET character_set_results=utf8", $this->con);
-			$result = mysql_query($sql,$this->con);
-			if(mysql_num_rows($result) > 0){
+			$result = $this->con->query($sql);
+			if($this->con->affected_rows($result) > 0){
 				return true;
 				}
 			else {
 				return false;
 				}
-				mysql_close($this->con);
+				mysqli_close($this->con);
 		}
 		
 		
@@ -43,57 +68,57 @@ class CRUD {
 		function getValue($sql,$value){
 			$this->connect();
 			//mysql_query("SET character_set_results=utf8", $this->con);
-			$result = mysql_query($sql,$this->con);
-			if(mysql_num_rows($result) > 0) {
-				$row = mysql_fetch_array($result);
+			$result = mysqli_query($sql,$this->con);
+			if(mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
 					$value = $row[$value];
 				}
 			else {
 					$value = "";
 				}
-				mysql_close($this->con);
+				mysqli_close($this->con);
 				return $value;
 			}
 		
 		//function to insert record to table according to the parametarized query
 		function insert($sql){
 			$this->connect();
-			/*mysql_query("SET character_set_client=utf8", $this->con);
-			mysql_query("SET character_set_connection=utf8", $this->con);*/
-			mysql_query($sql,$this->con);
-			if(mysql_affected_rows() > 0){
+			/*mysqli_query("SET character_set_client=utf8", $this->con);
+			mysqli_query("SET character_set_connection=utf8", $this->con);*/
+			mysqli_query($sql,$this->con);
+			if(mysqli_affected_rows() > 0){
 				return true;
 				}
 			else {
 				return false;
 				}
-			mysql_close($this->con);
+			mysqli_close($this->con);
 			}
 		//function to update table
 		function update($sql){
 			$this->connect();
-			/*mysql_query("SET character_set_client=utf8", $this->con);
-			mysql_query("SET character_set_connection=utf8", $this->con);*/
-			mysql_query($sql,$this->con);
-			if(mysql_affected_rows() > 0){
+			/*mysqli_query("SET character_set_client=utf8", $this->con);
+			mysqli_query("SET character_set_connection=utf8", $this->con);*/
+			mysqli_query($sql,$this->con);
+			if(mysqli_affected_rows() > 0){
 				return true;
 				}
 			else {
 				return false;
 				}	
-				mysql_close($this->con);		
+				mysqli_close($this->con);		
 			}
 		//function to Delete table
 		function delete($sql){
 			$this->connect();
-			mysql_query($sql,$this->con);
-			if(mysql_affected_rows() > 0){
+			mysqli_query($sql,$this->con);
+			if(mysqli_affected_rows() > 0){
 				return true;
 				}
 			else {
 				return false;
 				}	
-				mysql_close($this->con);		
+				mysqli_close($this->con);		
 			}
 			//function to return the filled array of data
 	   /* $sqlFetch = "SELECT sno,columnsName FROM table ORDER BY sno DESC";   
@@ -103,29 +128,29 @@ class CRUD {
 	   function getRecordSet($sql){
 			$ary = array();
 			$this->connect();	
-			$result = mysql_query($sql,$this->con);
-			if(mysql_num_rows($result) > 0){
-				while($row = mysql_fetch_assoc($result)){
+			$result = mysqli_query($sql,$this->con);
+			if(mysqli_num_rows($result) > 0){
+				while($row = mysqli_fetch_assoc($result)){
 					$ary[] = $row;
 					}
 				}
-				mysql_close($this->con);
+				mysqli_close($this->con);
 			return $ary;
 		   }
 	 //function to fill the combo
 	 function fillCombo($sql,$idFld,$displayFld){
 		 $this->connect();
 		 $options = "";
-		 $result = mysql_query($sql,$this->con);
-		 if(mysql_num_rows($result) > 0) {
-				while($row = mysql_fetch_array($result)){
+		 $result = mysqli_query($sql,$this->con);
+		 if(mysqli_num_rows($result) > 0) {
+				while($row = mysqli_fetch_array($result)){
 					$options .= '<option value="'.$row[$idFld].'"> '. $row[$displayFld] .' </option>'.PHP_EOL;
 					}					
 				}
 			else {
 					$options = "Not found";
 				}
-				mysql_close($this->con);
+				mysqli_close($this->con);
 				return $options;
 		 }
 	 //function to check isset and !empty for form field
@@ -173,9 +198,9 @@ class CRUD {
 		function autoFill($sql,$fld){
 			$value = '';
 			$this->connect();
-			$result = mysql_query($sql,$this->con);
-			if(mysql_num_rows($result) > 0) {
-				while($row = mysql_fetch_array($result)){
+			$result = mysqli_query($sql,$this->con);
+			if(mysqli_num_rows($result) > 0) {
+				while($row = mysqli_fetch_array($result)){
 					$value .= '"'.$row[$fld].'",';
 					}
 			}//end if
@@ -184,7 +209,7 @@ class CRUD {
 				}
 				$len=strlen($value);
 				$value=substr($value,0,($len-1));
-				mysql_close($this->con);
+				mysqli_close($this->con);
 				return $value;				
 			}
 			
@@ -230,9 +255,9 @@ class CRUD {
 		function autoFillGroup($sql,$fld1,$fld2){
 			$value = '';
 			$this->connect();
-			$result = mysql_query($sql,$this->con);
-			if(mysql_num_rows($result) > 0) {
-				while($row = mysql_fetch_array($result)){
+			$result = mysqli_query($sql,$this->con);
+			if(mysqli_num_rows($result) > 0) {
+				while($row = mysqli_fetch_array($result)){
 					$value .= '"'.$row[$fld1].' V/S '.$row[$fld2].'",';
 					}
 			}//end if
@@ -240,7 +265,7 @@ class CRUD {
 					$value = "";
 				}
 				return $value;
-				mysql_close($this->con);
+				mysqli_close($this->con);
 			}
 		//function to get Month Name , Day Name and Year in the 2010, 2012 etc format
 		function strFormatDate($date){						
@@ -332,14 +357,14 @@ class CRUD {
 			}
 			return ($new);
 			}
-	 //function to chanage date formate to Y-m-d this is for mySql default date format.
+	 //function to chanage date formate to Y-m-d this is for mysqli default date format.
      function changerDateFormat($date){
 		 $obj = new DateTime($date);
 		 $date = $obj->format('Y-m-d');
 		 return $date;
 		 }
 		 
-	 //function to chanage date formate to d-m-Y this is for mySql default date format.
+	 //function to chanage date formate to d-m-Y this is for mysqli default date format.
      function changerDateFormatY($date){
 		 $obj = new DateTime($date);
 		 $date = $obj->format('d-m-Y');
@@ -433,9 +458,9 @@ class CRUD {
 		$this->connect();
 		$options = '<select name="'.$cmb.'" id="'.$cmb.'" class="'.$classCss.'" '.$scripts.'>';
 		$options .='<option value=""></option>';
-		 $result = mysql_query($sql,$this->con);
-		 if(mysql_num_rows($result) > 0) {
-				while($row = mysql_fetch_array($result)){
+		 $result = mysqli_query($sql,$this->con);
+		 if(mysqli_num_rows($result) > 0) {
+				while($row = mysqli_fetch_array($result)){
 					$options .= '<option value="'.$row['sno'].'"> '. $row['shoba'] .' </option>'.PHP_EOL;
 					}					
 				}
@@ -443,7 +468,7 @@ class CRUD {
 					$options = "<option value=''>شعبہ جات خالی ہیں</option>";
 				}
 				$options .="</select>";
-				mysql_close($this->con);
+				mysqli_close($this->con);
 				echo($options);
 		}//shobaCmb
 		
@@ -463,7 +488,7 @@ class CRUD {
 						echo('</optgroup>');
 					}
 				echo("</select>");
-				mysql_close($this->con);
+				mysqli_close($this->con);
 			}//darjaatCmb
 	}//end class
 ?>
