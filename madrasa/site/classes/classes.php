@@ -10,44 +10,20 @@
 //--------------------- Updated on : 1-02-2012 -------------------------------
 // ------------------------- Thanks ------------------------------------------
 */ 
+/*
 class CRUD {
 		var $con;  
 		var $unsetFlg;
 		var $returnVal = "0";
 		//function to make connection to database
 		function connect(){
-			$con = new mysqli("localhost","shahhussain","Thefire!!1","taleemulquran_dbs");
-			if ($this->con->connect_errno) {
-				echo "Failed to connect to MySQL: " . $this->con->connect_error;
-				exit();
-			  }
-			/*
 			$this->con = mysql_connect("localhost","root","Thefire!!1") or die(mysql_error());	
 			mysql_query("SET character_set_results=utf8", $this->con);
 			mb_language('uni');
 			mb_internal_encoding('UTF-8');
 			mysql_select_db("taleemulquran_dbs",$this->con);
-			mysql_query("set names 'utf8'",$this->con);
-			*/			
+			mysql_query("set names 'utf8'",$this->con);		
 			}
-			
-		public function dbQuery($sql,$param){
-			try{
-				$this->connect();
-				$this->con->query($param);
-				if($this->con->affected_rows > 0){
-					return true;
-				}else{
-					return false;
-				}
-
-$mysqli -> query("DELETE FROM Persons WHERE Age>32");
-echo "Affected rows: " . $mysqli -> affected_rows;
-
-$mysqli -> close();
-			}catch(Exception $exc){
-				return $exc;
-				}
 		}
 		//to search in database tables with parameterized query.
 		function search($sql){
@@ -85,6 +61,7 @@ $mysqli -> close();
 			$this->connect();
 			/*mysqli_query("SET character_set_client=utf8", $this->con);
 			mysqli_query("SET character_set_connection=utf8", $this->con);*/
+			/*
 			mysqli_query($sql,$this->con);
 			if(mysqli_affected_rows() > 0){
 				return true;
@@ -99,7 +76,7 @@ $mysqli -> close();
 			$this->connect();
 			/*mysqli_query("SET character_set_client=utf8", $this->con);
 			mysqli_query("SET character_set_connection=utf8", $this->con);*/
-			mysqli_query($sql,$this->con);
+			/*mysqli_query($sql,$this->con);
 			if(mysqli_affected_rows() > 0){
 				return true;
 				}
@@ -125,7 +102,7 @@ $mysqli -> close();
 			 	foreach($crud->getRecordSet($sqlFetch) as $row){
 					echo($row['columnsName']);
 					} */
-	   function getRecordSet($sql){
+	   /*function getRecordSet($sql){
 			$ary = array();
 			$this->connect();	
 			$result = mysqli_query($sql,$this->con);
@@ -184,7 +161,7 @@ $mysqli -> close();
 		 /* <script>
 		  alert('<?php echo($path."/".$file); ?>');
 		  </script>*/
-		  $this->unsetFlg = false;		 		
+		  /*$this->unsetFlg = false;		 		
 		   if(!empty($file)){
 			  if(file_exists($path."/".$file)){
 				  unlink($path."/".$file);				 
@@ -219,7 +196,7 @@ $mysqli -> close();
 				//echo($pathOfPages);				
 				if ($handle = opendir($pathOfPages)) {
 					   /* This is the correct way to loop over the directory. */
-					   while (false !== ($file = readdir($handle))) { 
+					 /*  while (false !== ($file = readdir($handle))) { 
 						$fileext = substr(strrchr($file, "."), 1);
 							if(strtolower($fileext) == "php" || strtolower($fileext) == "txt" || strtolower($fileext) == "css" || strtolower($fileext) == "js" || strtolower($fileext) == "sql"){
 							  ?>
@@ -276,7 +253,7 @@ $mysqli -> close();
 							/*$dayInt = substr_replace($dayInt,'',0,1);
 							}
 						*/
-								$monthAry["Jan"] = "January";
+							/*	$monthAry["Jan"] = "January";
 								$monthAry["Feb"] = "February";
 								$monthAry["Mar"] = "March";
 								$monthAry["Apr"] = "April";
@@ -491,4 +468,4 @@ $mysqli -> close();
 				mysqli_close($this->con);
 			}//darjaatCmb
 	}//end class
-?>
+?> */

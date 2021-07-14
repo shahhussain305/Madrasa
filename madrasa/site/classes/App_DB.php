@@ -16,6 +16,93 @@ class App_DB extends DB{
     }
     //---------------------Do not edit the above --------------------//
 
+    //function to check integer value is less than 9 then show it with 0001, 0002....0009, 
+	//if > 9 then 0010,...0099, if > 99 then 0100 if > then 999 then 1000
+	 function changeNumberFormate($numberToChange){
+     try{
+        $numberToChange = intval($numberToChange);		 
+        if($numberToChange < 10 && $numberToChange > 0){
+            $this->returnVal = "00000".$numberToChange;
+            }
+        else if($numberToChange > 9 && $numberToChange < 99){
+            $this->returnVal = "0000".$numberToChange;
+            }
+        else if($numberToChange > 99 && $numberToChange < 999){
+            $this->returnVal = "000".$numberToChange;
+            }
+        else if($numberToChange > 999 && $numberToChange < 9999){
+            $this->returnVal = "00".$numberToChange;
+            }
+        else if($numberToChange > 9999 && $numberToChange < 99999){
+            $this->returnVal = "0".$numberToChange;
+            }
+        else{
+            $this->returnVal = $numberToChange;
+            }
+            return $this->returnVal;
+        }catch(Exception $exc){
+            $this->tempVar = $exc->getMessage();
+        }
+    }
+    //function to create shoba combo
+    function shobaCmb($cmb,$classCss="frmSelect",$scripts=""){
+    try{
+    $sql = "SELECT sno,shoba FROM shobajaat WHERE is_active = 1 ORDER BY sno ASC";
+    $this->connect();
+    $options = '<select name="'.$cmb.'" id="'.$cmb.'" class="'.$classCss.'" '.$scripts.'>';
+    $options .='<option value=""></option>';
+        $result = $this->getRecordSetFilled($sql);
+        if(isset($result) && count($result) > 0) {
+            foreach($result as $row){
+                $options .= '<option value="'.$row['sno'].'"> '. $row['shoba'] .' </option>'.PHP_EOL;
+                }					
+            }
+        else {
+                $options = "<option value=''>شعبہ جات خالی ہیں</option>";
+            }
+            $options .="</select>";
+            echo($options);
+        }catch(Exception $exc){
+            $this->tempVar = $exc->getMessage();
+        }
+    }//shobaCmb
+    
+    //functon to create darajaat combo
+    //otherOptions = send javascript events or functions or style commands i.e style="color:#fff;" or onchange="myFunction(this.value);"
+    function darjaatCmb($cmbName,$otherOptions="",$classCss="frmSelect"){
+        try{
+            $this->connect();
+                    $sql = "SELECT sno,shoba FROM shobajaat WHERE is_active = 1 ORDER BY sno ASC";
+                    echo('<select name="'.$cmbName.'" id="'.$cmbName.'" class="'.$classCss.'" '.$otherOptions.'>');
+                    echo('<option value=""></option>');
+                    foreach($this->getRecordSet($sql) as $row1){
+                        echo('<optgroup label="_'.$row1['shoba'].'" style="color:#369;">'.$row1['shoba']);
+                        $sqlDarja = "SELECT derjaCode,shoba_sno,darja FROM darjaat WHERE shoba_sno = ".$row1['sno'];
+                        foreach($this->getRecordSet($sqlDarja) as $row2){
+                            echo('<option value="'.$row2['derjaCode'].'">_____'.$row2['darja'].'</option>'). PHP_EOL;
+                            }
+                            echo('</optgroup>');
+                        }
+                    echo("</select>");
+        }catch(Exception $exc){
+            $this->tempVar = $exc->getMessage();
+        }
+        }//darjaatCmb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    public function getUserInfoAry($sno){
 	try{
 		return $this->getRecordSetFilled("SELECT * FROM employees WHERE sno = :sno",array(":sno"=>$sno));

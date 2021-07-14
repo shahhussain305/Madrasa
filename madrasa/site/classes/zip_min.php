@@ -45,5 +45,4 @@ $data = implode('', $this -> datasec);
 $ctrldir = implode('', $this -> ctrl_dir); 
 return $data . $ctrldir . $this -> eof_ctrl_dir . pack('v', sizeof($this -> ctrl_dir)) . pack('v', sizeof($this -> ctrl_dir)) . pack('V', strlen($ctrldir)) . pack('V', strlen($data)) . "\x00\x00"; 
 } 
-} 
- ?>
+}

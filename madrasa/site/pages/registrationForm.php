@@ -122,8 +122,8 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 			  $registrationNo = addslashes($_REQUEST['registrationNo']);
 			  
 			  //check registration no in regNumbers table if already exists then do not save record
-			  if($crud->search("SELECT registrationNo FROM regnumbers WHERE registrationNo = '".$registrationNo."'")) { 
-			  	echo($crud->errorMsg("مہربانی کر کے رجسٹریشن نمبر تبدیل کرلیں کیونکہ یہ رجسٹریشن نمبر پہلے ہی سے موجود ہے۔","غلطی"));
+			  if($db->dbQuery("SELECT registrationNo FROM regnumbers WHERE registrationNo = :registrationNo",array(':registrationNo'=>$registrationNo))) { 
+			  	echo($method->errorMsg("مہربانی کر کے رجسٹریشن نمبر تبدیل کرلیں کیونکہ یہ رجسٹریشن نمبر پہلے ہی سے موجود ہے۔","غلطی"));
 			  	?>
                 <script language="javascript">
 				$(document).ready(function() {
@@ -133,29 +133,55 @@ $photoStd = false; //if photo was not attached then here it will save the false 
                 <?php
 				}
 			  else{
-				  $sqlSave = "INSERT INTO registrationinfo (stdName,fatherName,nationality,dob,qualification,guirdianName,cellNo,fatherProfession,gurdianCellNo,
+				  $sqlSave = "INSERT INTO registrationinfo(stdName,fatherName,nationality,dob,qualification,guirdianName,cellNo,fatherProfession,gurdianCellNo,
 			  								permanentAddress,presentAddress,guirdianNameAuth,guirdianFNameAuth,guirdianSign,stdNic,guirdianNic,formB,
 											relationShipWithGuirdian,signNazim,admissionNo,stdPhoto,isLocal,isActive)
-								 VALUES('".$stdName."','".$fatherName."','".$nationality."','".$dob."','".$qualification."','".$guirdianName."','".$cellNo."',
-								 '".$fatherProfession."','".$gurdianCellNo."','".$permanentAddress."','".$presentAddress."','".$guirdianNameAuth."','".$guirdianFNameAuth."'
-								 ,'".$guirdianSign."','".$optionNIC1."','".$optionNIC2."','".$optionNIC3."','".$relationShipWithGuirdian."',
-								 '".$signNazim."','".$admissionNo."','".$stdPhoto."','".$isLocal."',1)";								 
+									VALUES(:stdName,:fatherName,:nationality,:dob,:qualification,:guirdianName,:cellNo,:fatherProfession,:gurdianCellNo,
+									:permanentAddress,:presentAddress,:guirdianNameAuth,:guirdianFNameAuth,:guirdianSign,:stdNic,:guirdianNic,:formB,
+									:relationShipWithGuirdian,:signNazim,:admissionNo,:stdPhoto,:isLocal,:isActive)";
+									$param_insert = array(':stdName'=>$stdName,
+														  ':fatherName'=>$fatherName,
+														  ':nationality'=>$nationality,
+														  ':dob'=>$dob,
+														  ':qualification'=>$qualification,
+														  ':guirdianName'=>$guirdianName,
+														  ':cellNo'=>$cellNo,
+														  ':fatherProfession'=>$fatherProfession,
+														  ':gurdianCellNo'=>$gurdianCellNo,
+														  ':permanentAddress'=>$permanentAddress,
+														  ':presentAddress'=>$presentAddress,
+														  ':guirdianNameAuth'=>$guirdianNameAuth,
+														  ':guirdianFNameAuth'=>$guirdianFNameAuth,
+														  ':guirdianSign'=>$guirdianSign,
+														  ':stdNic'=>$stdNic,
+														  ':guirdianNic'=>$guirdianNic,
+														  ':formB'=>$formB,
+														  ':relationShipWithGuirdian'=>$relationShipWithGuirdian,
+														  ':signNazim'=>$signNazim,
+														  ':admissionNo'=>$admissionNo,
+														  ':stdPhoto'=>$stdPhoto,
+														  ':isLocal'=>$isLocal,
+														  ':isActive'=>1);								 
 								 //echo($sqlSave);
-								 $searchStd = "SELECT * FROM registrationinfo WHERE stdName = '".$stdName."' 
-								 			   AND fatherName = '".$fatherName."' AND nationality = '".$nationality."'
-											   AND dob = '".$dob."'";
+								 $searchStd = "SELECT * FROM registrationinfo WHERE stdName = :stdName '".$stdName."' 
+								 			   AND fatherName = :fatherName AND nationality = :nationality
+											   AND dob = :dob";
+											   $param_search = array(':dob'=>$dob,':nationality'=>$nationality,':fatherName'=>$fatherName);
 											  // echo($searchStd);
-								if(!$crud->search($searchStd)){
-											  if($crud->insert($sqlSave)){
-												  $regSno = $crud->getValue("SELECT sno FROM registrationinfo ORDER BY sno DESC limit 1","sno");
-													$sqlRegNo = "INSERT INTO regnumbers (registrationNo,RollNumber,regSno) VALUES('".$registrationNo."','".$admissionNo."','".$regSno."')";
-													//echo($sqlRegNo);
-													 if($crud->insert($sqlRegNo)){
-														 $shoba_sno = $crud->getValue("SELECT shoba_sno FROM darjaat WHERE derjaCode = ".$darja,"shoba_sno");
-														 $sqlStdDrjat = "INSERT INTO stddarjaat(stdSno,darja,isCurrent,promotionDate,dateEnd,shoba_sno) VALUES(".$regSno.",".$darja.",1,'".$admissionDate."','".$dateEnd."',".$shoba_sno.")";
+								if(!$db->dbQuery($searchStd,$param_search)){
+											  if($db->dbQuery($sqlSave,$param_insert)){
+												  $regSno = $db->getValue("SELECT sno FROM registrationinfo ORDER BY sno DESC limit 1");
+													$sqlRegNo = "INSERT INTO regnumbers (registrationNo,RollNumber,regSno) VALUES(:registrationNo,:RollNumber,:regSno)";//'".$registrationNo."','".$admissionNo."','".$regSno."')";
+													$param_regNo = array(':registrationNo'=>$registrationNo,':RollNumber'=>$admissionNo,':regSno'=>$regSno);
+													if($db->dbQuery($sqlRegNo,$param_regNo)){
+														 $shoba_sno = $db->getValue("SELECT shoba_sno FROM darjaat WHERE derjaCode = :derjaCode",array(':derjaCode'=>$darja));
+														 $sqlStdDrjat = "INSERT INTO stddarjaat(stdSno,darja,isCurrent,promotionDate,dateEnd,shoba_sno) 
+														 				 VALUES(stdSno,darja,isCurrent,promotionDate,dateEnd,shoba_sno)";
+																		  $ary_stdDrjat = array(':stdSno'=>$regSno,':darja'=>$darja,':isCurrent'=>1,'promotionDate'=>$admissionDate,':dateEnd'=>$dateEnd,':shoba_sno'=>$shoba_sno);
+																		  //.$regSno.",".$darja.",1,'".$admissionDate."','".$dateEnd."',".$shoba_sno.")";
 														 	//echo $sqlStdDrjat;
-															if($crud->insert($sqlStdDrjat)){
-																echo($crud->sucMsg("آپ نے رجسٹریشن کے عمل کو کامیابی سے مکمل کر لیا ہے","شکریہ"));
+															if($db->dbQuery($sqlStdDrjat,$ary_stdDrjat)){
+																echo($method->sucMsg("آپ نے رجسٹریشن کے عمل کو کامیابی سے مکمل کر لیا ہے","شکریہ"));
 												 			 	$_SESSION['photo'] = "";
 																?>
 																<script language="javascript">
@@ -167,7 +193,7 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 																}//end if for insert most inner 
 														   else{
 																//failed to save in stdDarjaat table
-															 	echo($crud->errorMsg("کمپیوٹر میں غلطی کی وجہ سے ڈیٹا محفوظ نہ ہوسکا۔","غلطی"));
+															 	echo($method->errorMsg("کمپیوٹر میں غلطی کی وجہ سے ڈیٹا محفوظ نہ ہوسکا۔","غلطی"));
 																?>
 																<script language="javascript">
                                                                 $(document).ready(function() {
@@ -179,7 +205,7 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 															 }//end if for second insert()
 													 else{
 												 		 //failed to save
-												 		 echo($crud->errorMsg("کمپیوٹر میں غلطی کی وجہ سے ڈیٹا محفوظ نہ ہوسکا۔","غلطی"));
+												 		 echo($method->errorMsg("کمپیوٹر میں غلطی کی وجہ سے ڈیٹا محفوظ نہ ہوسکا۔","غلطی"));
 												  		?>
 														<script language="javascript">
                                                         $(document).ready(function() {
@@ -191,7 +217,7 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 												  }
 											  else{
 												  //failed to save
-												  echo($crud->errorMsg("کمپیوٹر میں غلطی کی وجہ سے ڈیٹا محفوظ نہ ہوسکا۔","غلطی"));
+												  echo($method->errorMsg("کمپیوٹر میں غلطی کی وجہ سے ڈیٹا محفوظ نہ ہوسکا۔","غلطی"));
 												  ?>
 												<script language="javascript">
                                                 $(document).ready(function() {
@@ -202,7 +228,7 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 												  }
 								}
 								else{
-									echo($crud->errorMsg("یہ طالب العلم پہلے ہی سے داخل شدہ ہے","غلطی"));
+									echo($method->errorMsg("یہ طالب العلم پہلے ہی سے داخل شدہ ہے","غلطی"));
 									?>
 								<script language="javascript">
                                 $(document).ready(function() {
@@ -214,7 +240,7 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 			  }//end else for checking registationNo in regNumbers table
 			}//END IF FOR isOk()
 			else{
-				echo($crud->errorMsg(" مہربانی کرکے پورے فارم کو احتیاط سے پُر کریں","غلطی"));
+				echo($method->errorMsg(" مہربانی کرکے پورے فارم کو احتیاط سے پُر کریں","غلطی"));
 				?>
                 <script language="javascript">
 				$(document).ready(function() {
@@ -287,7 +313,7 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 	$css = 'style="background:#ffffff; position:relative; width:270px; right:1px; top:1px;"';
 	//$java = 'onchange="getValue(document.getElementById(\'darja\').value,\'darjaat\',\'derjaCode\',\'registrationNo\',\'darjaidWait\',document.getElementById(\'registrationNoForReset\').value); countRegNum(document.getElementById(\'darja\').value)"';
 	$java = 'onchange="countRegNum(document.getElementById(\'darja\').value)"';
-	$crud->darjaatCmb('darja',$css.' '.$java); ?>
+	$db->darjaatCmb('darja',$css.' '.$java); ?>
     <?php /*?><select type="text" name="darja" id="darja" class="frmSelect" style="background:#ffffff; position:relative; width:270px; right:1px; top:1px;" onchange="getValue(document.getElementById('darja').value,'darjaat','derjaCode','registrationNo','darjaidWait',document.getElementById('registrationNoForReset').value);">
     <option value=""></option>
     <?php echo($crud->fillCombo("SELECT sno,darja FROM darjaat ORDER BY preority ASC","sno","darja")); ?>
@@ -298,17 +324,17 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 <tr>
 	<td>  رجسٹریشن نمبر  </td>
 	<td> <a href="#" style="text-decoration:none;" onclick="checkLastNum($('#registrationNo').val()); return false;">چیک کریں</a>
-	<?php $regNo = $crud->getValue("SELECT COUNT(sno) as regSnos From regnumbers ORDER BY registrationNo","regSnos"); ?>
+	<?php $regNo = $db->getValue("SELECT COUNT(sno) as regSnos From regnumbers ORDER BY registrationNo"); ?>
     <input type="hidden" name="registrationNoForReset" id="registrationNoForReset" value="<?php if(isset($regNo) && !empty($regNo)){ 
-					   			echo($crud->changeNumberFormate($regNo+ 1)); 
+					   			echo($db->changeNumberFormate($regNo + 1)); 
 								}else{  
 								echo("000001"); } ?>" />
 	<input type="text" name="registrationNo" id="registrationNo"   
     				   value="<?php if(isset($_REQUEST['registrationNo']) && !empty($_REQUEST['registrationNo'])){echo($_REQUEST['registrationNo']);}else if(isset($regNo) && !empty($regNo)){ 
-					   			echo($crud->changeNumberFormate($regNo+ 1)); 
+					   			echo($db->changeNumberFormate($regNo+ 1)); 
 								}else{  
 								echo("000001"); } ?>" class="frmInputTxt" style="width:182px;" />
-                                <font style="font-size:15px; font-weight:normal;" id="showTotal"></font>
+                                <span style="font-size:15px; font-weight:normal;" id="showTotal"></span>
                                 &nbsp;&nbsp;
                                 <span id="msgCheck" onclick="hideDiv('msgCheck');"></span>
                                 </td>
@@ -344,23 +370,6 @@ $photoStd = false; //if photo was not attached then here it will save the false 
 <td> بن  </td>
 <td> <input type="text" name="guirdianFNameAuth" id="guirdianFNameAuth" value="<?php if(isset($_REQUEST['guirdianFNameAuth']) && !empty($_REQUEST['guirdianFNameAuth'])){echo($_REQUEST['guirdianFNameAuth']);}else{echo($guirdianFNameAuth); } ?>" class="frmInputTxt" /> </td>
 </tr>
-<?php /*?><tr>
-<td colspan="2"> یہ بات اچھی طرح چانتے ہوئے کہ جان بوجھ کر جھوٹا حلف اٹھانے والا
- دنیا و آخرت میں سخت عذاب کا مستحق ہوتا ہے اس بات کی حلفیہ تصدیق کرتا ہوں کہ </td>
-</tr>
-<tr>
-<td> مسمی </td>
-<td> <input type="text" name="stdNameAuth" id="stdNameAuth" value="<?php if(isset($_REQUEST['stdNameAuth']) && !empty($_REQUEST['stdNameAuth'])){echo($_REQUEST['stdNameAuth']);}else{echo($stdNameAuth);} ?>" class="frmInputTxt" /> </td>
-</tr>
-<tr>
-<td> بن  </td>
-<td> <input type="text" name="stdNameFatherNameAuth" id="stdNameFatherNameAuth" value="<?php if(isset($_REQUEST['stdNameFatherNameAuth']) && !empty($_REQUEST['stdNameFatherNameAuth'])){echo($_REQUEST['stdNameFatherNameAuth']);}else{echo($stdNameFatherNameAuth);} ?>" class="frmInputTxt" /> </td>
-</tr>
-<tr>
-<td colspan="2"> کے داخلہ فارم میں اس کی تاریخ پیدائیش اور عمر سمیت جو دیگر 
- کوائف درج کئے گئے ہیں وہ میرے علم کے مطابق بالکل درست ہیں اور اس میں کوئی غلط بیانی نہیں کی گئی
- </td>
-</tr><?php */?>
 <tr>
 	<td> دستخط سرپرست </td>
 	<td> <input type="text" name="guirdianSign" id="guirdianSign" value="<?php if(isset($_REQUEST['guirdianSign']) && !empty($_REQUEST['guirdianSign'])){echo($_REQUEST['guirdianSign']);}else{echo($guirdianSign); } ?>" class="frmInputTxt" /> </td>
@@ -469,11 +478,6 @@ $photoStd = false; //if photo was not attached then here it will save the false 
     [کل طلباء: <span id="tStds"></span>] 
     </td>
 </tr>
-<?php /*?><tr>
-    <td colspan="2">
-    <br /> <span id="msgCheck" onclick="hideDiv('msgCheck');"></span>
-    </td>
-</tr><?php */?>
 </table>
 </form>
 <script language="javascript">

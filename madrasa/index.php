@@ -109,9 +109,9 @@ try{
 						$sql = "Select * from login where userid = :userid AND userkey= :userkey";
 						$ary = array(':userid'=>$userid,':userkey'=>$key);
 						if($db->dbQuery($sql,$ary)){
-							$_SESSION['userid'] = addslashes($userid);
-							$_SESSION['key'] = addslashes($key);
-							$_SESSION['hijri'] = addslashes($hijri_dat);
+							$_SESSION['userid'] = $userid;
+							$_SESSION['key'] = $key;
+							$_SESSION['hijri'] = $hijri_dat;
 							header("Location: site/index.php");
 							}
 						else{
