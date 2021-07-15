@@ -2,21 +2,20 @@
 class Communicator{	
 	//phpmailer var to send emails
 	private $host="smtp.gmail.com";
-	//private $host="74.125.140.109";
-	private $userName="robot.phc@gmail.com";
+	private $userName="md1@gmail.com";
         private $robots = array(
-                                    'robot.phc@gmail.com',
-                                    'robot1.phc@gmail.com',
-                                    'robot2.phc@gmail.com',
-                                    'robot3.phc@gmail.com',
-                                    'robot4.phc@gmail.com',
-                                    'robot5.phc@gmail.com'
+                                    'md0@gmail.com',
+                                    'md1@gmail.com',
+                                    'md2@gmail.com',
+                                    'md3@gmail.com',
+                                    'md4@gmail.com',
+                                    'md5@gmail.com'
                                     );
-	private $password="vEG3#k^FsZ0^b5ksEL_W#d (#334dfas";
-	public $replyTo="darulqazaswat2011@gmail.com";
+	private $password="password_for_the_above_emails";
+	public $replyTo="thefire305@gmail.com";
 	var $tempVar;
-        public $from_email = 'robot.phc@gmail.com';
-        public $from_name = 'Peshawar High Court';
+        public $from_email = 'thefire305@gmail.com';
+        public $from_name = 'Madrasa Management System';
         public $charSet = "CharSet = 'UTF-8'";
         public $charSetOpt = 0;
 	//function to send email simple and with attachements
